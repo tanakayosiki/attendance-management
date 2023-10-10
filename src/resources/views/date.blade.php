@@ -15,16 +15,16 @@
         <nav class="header__nav">
             <ul class="nav__list">
                 <li class="nav__list-item">
-                    <a class="nav__list-item--link">ホーム</a>
+                        <a class="nav__list-item--link" href="/">ホーム</a>
                 </li>
                 <li class="nav__list-item">
-                    <a class="nav__list-item--link">日付一覧</a>
+                        <a class="nav__list-item--link" href="/date">日付一覧</a>
                 </li>
                 <li class="nav__list-item">
                     <form class="form" action="/logout" method="post">
                         @csrf
-                        <a class="nav__list-item--link" href="">
-                            ログアウト</a>
+                        <button class="nav__list-item--link---button" type="submit">
+                            ログアウト</button>
                     </form>
                 </li>
             </ul>
@@ -34,7 +34,19 @@
     <main>
         <div class="work__date">
             <div class="date">
-                <p class="date__list">2021-11-01</p>
+                <div class="date__list">
+                    <form action="/date/prev" method="post">
+                        @csrf
+                        <button class="date__prev-button" type="submit"><</button>
+                    </form>
+                    <p class="date__content">
+                        {{$ymd}}
+                    </p>
+                    <form action="/date/next" method="post">
+                        @csrf
+                        <button class="date__next-button" type="submit">></button>
+                    </form>
+                </div>
             </div>
             <table class="work__table">
                 <tr class="work__table-row">
@@ -47,14 +59,14 @@
                 @foreach($users as $user)
                 <tr class="work__table-row">
                     <td class="work__table-content">{{$user['user']['name']}}</td>
-                    <td class="work__table-content">{{$user['attend']}}</td>
-                    <td class="work__table-content">{{$user['leave']}}</td>
-                    <td class="work__table-content">00:30:00</td>
-                    <td class="work__table-content">09:30:00</td>
+                    <td class="work__table-content">{{$user->getAttend()}}</td>
+                    <td class="work__table-content">{{$user->getLeave()}}</td>
+                    <td class="work__table-content">{{$user['break_total']}}</td>
+                    <td class="work__table-content">{{$user['work_time']}}</td>
                 </tr>
                 @endforeach
             </table>
-            {{$users->links()}}
+            {{$users->links('vendor.pagination.mypagination')}}
         </div>
         <div class="copyright">
             <small class="atte__copyright">Atte,inc.</small>

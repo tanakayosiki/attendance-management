@@ -15,10 +15,10 @@
         <nav class="header__nav">
             <ul class="nav__list">
                 <li class="nav__list-item">
-                    <a class="nav__list-item--link">ホーム</a>
+                    <a class="nav__list-item--link" href="/">ホーム</a>
                 </li>
                 <li class="nav__list-item">
-                    <a class="nav__list-item--link">日付一覧</a>
+                    <a class="nav__list-item--link" href="/date">日付一覧</a>
                 </li>
                 <li class="nav__list-item">
                     <form action="/logout" method="post">
@@ -39,7 +39,7 @@
                 <div class="stamp__list">
                         <form class="stamp__list-attend" action="/attend" method="post">
                             @csrf
-                            <button class="stamp__button" type="submit">
+                            <button class="stamp__button" type="submit" disabled>
                             勤務開始
                             </button>
                         </form>
@@ -55,9 +55,9 @@
                             休憩開始
                         </button>
                     </form>
-                    <form class="stamp__list-breakout" action="/breakout" method="post">
+                    <form class="stamp__list-breakout" action="/breakout" method="post" >
                         @csrf
-                        <button class="stamp__button" type="submit">
+                        <button class="stamp__button" type="submit" disabled>
                             休憩終了
                         </button>
                     </form>

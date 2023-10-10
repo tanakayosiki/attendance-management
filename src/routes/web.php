@@ -19,6 +19,7 @@ use App\Http\Controllers\BreakTimeController;
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::get('/date',[DateController::class,'index']);
 Route::middleware('auth')->group(function(){
 Route::get('/',[AuthenticatedSessionController::class,'index']);
@@ -31,3 +32,5 @@ Route::post('/breakin',[BreakTimeController::class,'breakIn']);
 Route::get('/breakin',[BreakTimeController::class,'breakIn']);
 Route::post('/breakout',[BreakTimeController::class,'breakOut']);
 Route::get('/breakout',[BreakTimeController::class,'breakOut']);
+Route::post('/date/prev',[DateController::class,'prev']);
+Route::get('date/prev',[DateController::class,'prev']);

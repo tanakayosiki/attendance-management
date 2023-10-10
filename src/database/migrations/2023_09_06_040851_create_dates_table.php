@@ -18,8 +18,8 @@ class CreateDatesTable extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->dateTime('attend');
             $table->dateTime('leave')->nullable();
-            $table->dateTime('break_total')->nullable();
-            $table->dateTime('work_time')->nullable();
+            $table->time('break_total')->nullable();
+            $table->time('work_time')->nullable();
             $table->timestamps();
         });
     }
