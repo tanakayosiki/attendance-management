@@ -14,13 +14,14 @@ class AuthenticatedSessionController extends Controller
 {
     public function index(){
         $user=Auth::user();
-        $today=Carbon::today();
-        $attend=DB::table('dates')->where('user_id',$user->id)->whereDate('attend',$today)->first();
-        $leave=DB::table('dates')->where('user_id',$user->id)->whereDate('leave',$today)->first();
-        $breakIn=DB::table('breaktimes')->where('user_id',$user->id)->latest()->value('break_in');
-        $breakOut=DB::table('breaktimes')->where('user_id',$user->id)->latest()->value('break_out');
+        $newDate=DB::table('dates')->where('user_id',$user->id)->latest()->first();
+        $newBreakTime=DB::table('breaktimes')->where('user_id',$user->id)->latest()->first();
+        $attend=$newDate->attend;
+        $leave=$newDate->leave;
+        $breakIn=$newBreakTime->break_in;
+        $breakOut=$newBreakTime->break_out;
         if(!empty($leave)){
-             return view('stamp.attend');
+            return view('stamp.attend');
         }
         if(!empty($attend)){
             if(!empty($breakIn)&&empty($breakOut)){
@@ -35,19 +36,9 @@ class AuthenticatedSessionController extends Controller
     public function attend(){
         $user=Auth::user();
         $oldDateIn=Date::where('user_id',$user->id)->latest()->first();
-        $oldDateInDay='';
-        if($oldDateIn){
-            $oldDateInPunchIn=new Carbon($oldDateIn->attend);
-            $oldDateInDay=$oldDateInPunchIn->startOfDay();
-        }
+        $oldDateLeave=new Carbon($oldDateIn->leave);
+        $oldDateInDay=$oldDateLeave->startOfDay();
         $newDateInDay=Carbon::today();
-        if(($oldDateInDay==$newDateInDay)&&(empty($oldDateIn->leave))){
-        }
-        
-        if($oldDateIn){
-            $oldDatePunchOut=new Carbon($oldDateIn->leave);
-            $oldDateInDay=$oldDatePunchOut->startOfDay();
-        }
 
         if(($oldDateInDay==$newDateInDay)){
             return redirect()->back()->with('message','退勤済みです');
@@ -103,29 +94,11 @@ class AuthenticatedSessionController extends Controller
         $workSeconds=$workTime%60;
         $workHms=sprintf("%02d:%02d:%02d",$workHours,$workMinutes,$workSeconds);
 
-        if($dateOut){
-            if(empty($dateOut->leave)){
-                if(!empty($breakTime->break_in) && empty($breakTime->break_out)){
-                    return redirect()->back()->with('message','休憩終了が打刻されていません');
-                }else{
-                    $dateOut->update([
-                        'leave'=>Carbon::now(),
-                        'break_total'=>$breakHms,
-                        'work_time'=>$workHms
-                    ]);
-                    return redirect()->back()->with('message','気をつけてお帰りください!');
-                }
-            }else{
-                $today=new Carbon();
-                $day=$today->day;
-                $oldPunchOut=new Carbon();
-                $oldPunchDay=$oldPunchOut->day;
-                if($day==$oldPunchDay){
-                    return redirect()->back()->with('message','退勤済みです');
-                }
-            }
-        }else{
-            return redirect()->back()->with('message','出勤打刻がされていません');
+        $dateOut->update([
+        'leave'=>Carbon::now(),
+        'break_total'=>$breakHms,
+        'work_time'=>$workHms
+        ]);
+        return redirect()->back()->with('message','気をつけてお帰りください!');
         }
-    }
 }

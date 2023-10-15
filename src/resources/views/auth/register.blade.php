@@ -26,15 +26,27 @@
                 <div class="form__content">
                     <div class="form__content-item">
                         <input class="form__text" type="text" name="name" value="{{old('name')}}" placeholder="名前">
+                        @error('name')
+                        <p>{{$errors->first('name')}}</p>
+                        @enderror
                     </div>
                     <div class="form__content-item">
                         <input class="form__text" type="email" name="email" value="{{old('email')}}" placeholder="メールアドレス">
+                        @error('email')
+                        <p>{{$errors->first('email')}}</p>
+                        @enderror
                     </div>
                     <div class="form__content-item">
                         <input class="form__text" type="password" name="password" placeholder="パスワード">
+                        @error('password')
+                        <p>{{$errors->first('password')}}</p>
+                        @enderror
                     </div>
                     <div class="form__content-item">
                         <input class="form__text" type="password" name="password_confirmation" placeholder="確認用パスワード">
+                        @error('password')
+                        <p>{{$errors->first('password')}}</p>
+                        @enderror
                     </div>
                     <div class="form__content-item">
                         <button class="form__button" type="submit">会員登録</button>

@@ -26,9 +26,15 @@
                 <div class="form__content">
                     <div class="form__content-item">
                         <input class="form__text" type="email" name="email" value="{{old('email')}}" placeholder="メールアドレス">
+                        @error('email')
+                        {{$errors->first('email')}}
+                        @enderror
                     </div>
                     <div class="form__content-item">
                         <input class="form__text" type="password" name="password" placeholder="パスワード">
+                        @error('password')
+                        {{$errors->first('password')}}
+                        @enderror
                     </div>
                     <div class="form__content-item">
                         <button class="form__button" type="submit">ログイン</button>

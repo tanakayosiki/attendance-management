@@ -34,3 +34,5 @@ Route::post('/breakout',[BreakTimeController::class,'breakOut']);
 Route::get('/breakout',[BreakTimeController::class,'breakOut']);
 Route::post('/date/prev',[DateController::class,'prev']);
 Route::get('date/prev',[DateController::class,'prev']);
+Route::post('/date/next',[DateController::class,'next']);
+Route::get('date/prev',[DateController::class,'next']);

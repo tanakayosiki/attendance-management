@@ -37,14 +37,16 @@
                 <div class="date__list">
                     <form action="/date/prev" method="post">
                         @csrf
-                        <button class="date__prev-button" type="submit"><</button>
+                        <input type="hidden" name="ymd" id="ymd" value="{{$ymd}}">
+                        <button class="date__prev-button" type="submit" name="prev"><</button>
                     </form>
                     <p class="date__content">
-                        {{$ymd}}
+                            {{$ymd}}
                     </p>
                     <form action="/date/next" method="post">
                         @csrf
-                        <button class="date__next-button" type="submit">></button>
+                        <input type="hidden" name="ymd" id="ymd" value="{{$ymd}}">
+                        <button class="date__next-button" type="submit" name="next">></button>
                     </form>
                 </div>
             </div>
