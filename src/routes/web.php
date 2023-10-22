@@ -21,7 +21,7 @@ Route::get('/', function () {
 });
 
 Route::get('/date',[DateController::class,'index']);
-Route::middleware('auth')->group(function(){
+Route::middleware('verified')->group(function(){
 Route::get('/',[AuthenticatedSessionController::class,'index']);
 });
 Route::post('/attend',[AuthenticatedSessionController::class,'attend']);
@@ -32,7 +32,7 @@ Route::post('/breakin',[BreakTimeController::class,'breakIn']);
 Route::get('/breakin',[BreakTimeController::class,'breakIn']);
 Route::post('/breakout',[BreakTimeController::class,'breakOut']);
 Route::get('/breakout',[BreakTimeController::class,'breakOut']);
-Route::post('/date/prev',[DateController::class,'prev']);
-Route::get('date/prev',[DateController::class,'prev']);
-Route::post('/date/next',[DateController::class,'next']);
-Route::get('date/prev',[DateController::class,'next']);
+Route::post('/back',[DateController::class,'back']);
+Route::get('/back',[DateController::class,'back']);
+Route::post('/forward',[DateController::class,'forward']);
+Route::get('/forward',[DateController::class,'forward']);

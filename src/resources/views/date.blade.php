@@ -35,18 +35,18 @@
         <div class="work__date">
             <div class="date">
                 <div class="date__list">
-                    <form action="/date/prev" method="post">
+                    <form action="/back" method="post">
                         @csrf
                         <input type="hidden" name="ymd" id="ymd" value="{{$ymd}}">
-                        <button class="date__prev-button" type="submit" name="prev"><</button>
+                        <button class="date__back-button" type="submit" name="back"><</button>
                     </form>
                     <p class="date__content">
                             {{$ymd}}
                     </p>
-                    <form action="/date/next" method="post">
+                    <form action="/forward" method="post">
                         @csrf
                         <input type="hidden" name="ymd" id="ymd" value="{{$ymd}}">
-                        <button class="date__next-button" type="submit" name="next">></button>
+                        <button class="date__forward-button" type="submit" name="forward">></button>
                     </form>
                 </div>
             </div>

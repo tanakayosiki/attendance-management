@@ -23,30 +23,30 @@ class DateController extends Controller
         return view('date',compact('users','ymd'));
     }
 
-    public function prev(Request $request){
+    public function back(Request $request){
+        $user=Auth::user();
         $data=$request->all();
-        $now=$data['ymd'];
+        $now=optional($data)["ymd"];
         $date=new Carbon($now);
         $prev=$date->subDay(1);
         $year=$prev->year;
         $month=$prev->month;
         $day=$prev->day;
         $ymd=sprintf("%d-%02d-%02d",$year,$month,$day);
-        $user=Auth::user();
         $users=Date::with('user')->whereDate('updated_at',$ymd)->paginate(5);
         return view('date',compact('users','ymd'));
     }
 
-    public function next(Request $request){
+    public function forward(Request $request){
+        $user=Auth::user();
         $data=$request->all();
-        $now=$data['ymd'];
+        $now=optional($data)["ymd"];
         $date=new Carbon($now);
         $next=$date->addDay(1);
         $year=$next->year;
         $month=$next->month;
         $day=$next->day;
         $ymd=sprintf("%d-%02d-%02d",$year,$month,$day);
-        $user=Auth::user();
         $users=Date::with('user')->whereDate('updated_at',$ymd)->paginate(5);
         return view('date',compact('users','ymd'));
     }

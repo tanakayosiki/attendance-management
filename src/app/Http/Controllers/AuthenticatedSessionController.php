@@ -16,10 +16,10 @@ class AuthenticatedSessionController extends Controller
         $user=Auth::user();
         $newDate=DB::table('dates')->where('user_id',$user->id)->latest()->first();
         $newBreakTime=DB::table('breaktimes')->where('user_id',$user->id)->latest()->first();
-        $attend=$newDate->attend;
-        $leave=$newDate->leave;
-        $breakIn=$newBreakTime->break_in;
-        $breakOut=$newBreakTime->break_out;
+        $attend=optional($newDate)->attend;
+        $leave=optional($newDate)->leave;
+        $breakIn=optional($newBreakTime)->break_in;
+        $breakOut=optional($newBreakTime)->break_out;
         if(!empty($leave)){
             return view('stamp.attend');
         }
@@ -36,14 +36,15 @@ class AuthenticatedSessionController extends Controller
     public function attend(){
         $user=Auth::user();
         $oldDateIn=Date::where('user_id',$user->id)->latest()->first();
-        $oldDateLeave=new Carbon($oldDateIn->leave);
-        $oldDateInDay=$oldDateLeave->startOfDay();
-        $newDateInDay=Carbon::today();
-
-        if(($oldDateInDay==$newDateInDay)){
-            return redirect()->back()->with('message','退勤済みです');
+        $today=Carbon::today();
+        $oldDay='';
+        if($oldDateIn) {
+            $oldDateAttend=new Carbon($oldDateIn->attend);
+            $oldDay=$oldDateAttend->startOfDay();
         }
-
+        if($oldDay==$today){
+            return redirect()->back()->with('message','出勤打刻は1日1回です');
+        }
         $dateIn=Date::create([
             'user_id'=>$user->id,
             'attend'=>Carbon::now(),
@@ -79,7 +80,7 @@ class AuthenticatedSessionController extends Controller
         $breakSeconds=$breakTime%60;
         $breakHms=sprintf("%02d:%02d:%02d",$breakHours,$breakMinutes,$breakSeconds);
 
-        $attend=DB::table('dates')->where('user_id',$user->id)->whereDate('attend',$today)->value('attend');
+        $attend=DB::table('dates')->where('user_id',$user->id)->latest()->value('attend');
         $attendTime=new Carbon($attend);
         $attendDecimal=strtoTime($attendTime);
 

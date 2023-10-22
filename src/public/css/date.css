@@ -61,7 +61,7 @@ h2{
     align-items: center;
 }
 
-.date__prev-button,.date__next-button{
+.date__back-button,.date__forward-button{
     width:40px;
     color:blue;
     font-size: 20px;
